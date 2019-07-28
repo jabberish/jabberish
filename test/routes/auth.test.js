@@ -16,8 +16,8 @@ describe('auth routes', () => {
       });
   });
 
-  it('can signin a user', async() => {
-    const user = await getUsers()[0];
+  it('can signin a user', () => {
+    const user = getUsers()[0];
     return request(app)
       .post('/api/v1/auth/signin')
       .send({ username: user.username, password: 'password' })

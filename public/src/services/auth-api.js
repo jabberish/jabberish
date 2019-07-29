@@ -25,7 +25,6 @@ const submitRegister = (user) => {
 const submitVerify = () => {
   return fetch('http://localhost:3000/api/v1/auth/verify', {
     mode: 'cors',
-    credentials: 'include',
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
   })

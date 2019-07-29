@@ -49,7 +49,7 @@ describe('workspace routes', () => {
 
   it('returns all workspaces the user is a member of', async() => {
     const users = getUsers();
-    const workspaces = getWorkspaces();
+    const workspaces = getWorkspaces().slice(0, 3);
 
     await UserByWorkspace.create([{ 
       userId: users[0]._id,
@@ -62,7 +62,14 @@ describe('workspace routes', () => {
     return getAgent()
       .get('/api/v1/workspaces/member')
       .then(res => {
-        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body).toHaveLength(3);
+        res.body.forEach(workspace => {
+          expect(workspace).toEqual({
+            _id: expect.any(String),
+            userId: users[0]._id,
+            workspaceId: expect.any(String)
+          });
+        });
       });
   });
 });

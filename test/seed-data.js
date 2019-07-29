@@ -1,5 +1,6 @@
 const User = require('../lib/models/User');
 const Workspace = require('../lib/models/Workspace');
+const Channel = require('../lib/models/Channel');
 const UserByWorkspace = require('../lib/models/UserByWorkspace');
 const chance = require('chance').Chance();
 
@@ -21,9 +22,15 @@ module.exports = async({ users = 3 } = {}) => {
       return { user: workspace.owner, workspace: workspace._id };
     }));
 
+  const createdChannels = await Channel
+    .create(createdWorkspaces.map(workspace => {
+      return { name: workspace.name, workspace: workspace._id };
+    }));
+
   return {
     users: createdUsers,
     workspaces: createdWorkspaces,
-    UsersByWorkspaces: createdUsersByWorkspaces
+    usersByWorkspaces: createdUsersByWorkspaces,
+    channels: createdChannels
   };
 };

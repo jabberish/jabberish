@@ -14,4 +14,20 @@ describe('channels routes', () => {
         });
       });
   });
+
+  it('returns a list of all channels in workspace the user is a member of', () => {
+    const workspace = getWorkspaces()[0];
+    return getAgent()
+      .get(`/api/v1/channels/${workspace._id}`)
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+        res.body.forEach(channel => {
+          expect(channel).toEqual({
+            _id: expect.any(String),
+            name: expect.any(String),
+            workspace: expect.any(String)
+          });
+        });
+      });
+  });
 });

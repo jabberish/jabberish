@@ -2,7 +2,7 @@ import Component from '../Component.js';
 import ChannelItem from './ChannelItem.js';
 
 import { submitVerify } from '../services/auth-api.js';
-import { getWorkspaceChannels } from '../services/channel-api.js';
+import { getWorkspaceChannels, submitAddChannel } from '../services/channel-api.js';
 import hashStorage from '../utils/hash-storage.js';
 
 // eslint-disable-next-line no-undef
@@ -14,8 +14,12 @@ class WorkspaceApp extends Component {
     const dom = this.renderDOM();
 
     const channelList = dom.querySelector('.channels');
-
     const workspace = hashStorage.get().workspace;
+    const messageForm = dom.querySelector('.message-form');
+    const channelForm = dom.querySelector('.channel-form');
+    const messageInput = dom.querySelector('#message-input');
+    const channelInput = dom.querySelector('#channel-input');
+    const messages = dom.querySelector('#messages');
 
     submitVerify()
       .then(res => console.log(res));
@@ -35,14 +39,17 @@ class WorkspaceApp extends Component {
         });
       });
 
-    const form = dom.querySelector('.message-form');
-    const input = dom.querySelector('#message');
-    const messages = dom.querySelector('#messages');
-
-    form.addEventListener('submit', (e) => {
+    channelForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('chat message', input.value);
-      input.value = '';
+      const workspace = hashStorage.get().workspace;
+      submitAddChannel(channelInput.value, workspace)
+        .then(res => console.log(res));
+    });
+
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      socket.emit('chat message', messageInput.value);
+      messageInput.value = '';
       return false;
     });
 
@@ -63,12 +70,17 @@ class WorkspaceApp extends Component {
         <section class="container">
           <section class="channels-container">
             <h2>Channels</h2>
+            <section>
+              <form class="channel-form" action="">
+                <input id="channel-input" autocomplete="off" /><button>Create</button>
+              </form>
+            </section>
             <ul class="channels"></ul>
           </section>
           <section class="chat">
             <ul id="messages"></ul>
             <form class="message-form" action="">
-              <input id="message" autocomplete="off" /><button>Send</button>
+              <input id="message-input" autocomplete="off" /><button>Send</button>
             </form>
           </section>
         </section>

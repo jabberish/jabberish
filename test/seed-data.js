@@ -18,7 +18,7 @@ module.exports = async({ users = 3 } = {}) => {
 
   const createdUsersByWorkspaces = await UserByWorkspace
     .create(createdWorkspaces.map(workspace => {
-      return { userId: workspace.owner, workspaceId: workspace._id };
+      return { user: workspace.owner, workspace: workspace._id };
     }));
 
   return {

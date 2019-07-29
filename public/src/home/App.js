@@ -1,6 +1,6 @@
 import Component from '../Component.js';
 import { submitVerify } from '../services/auth-api.js';
-import { submitAddWorkspace } from '../services/workspace-api.js';
+import { submitAddWorkspace, getMemberWorkspaces } from '../services/workspace-api.js';
 
 class App extends Component {
 
@@ -8,9 +8,18 @@ class App extends Component {
     const dom = this.renderDOM();
 
     const form = dom.querySelector('#workspace-form');
+    const workspacesList = dom.querySelector('.workspaces');
 
     submitVerify()
       .then(res => console.log(res));
+
+    getMemberWorkspaces()
+      .then(res => {
+        // res.forEach(workspace => {
+        //   const li = document.createElement('li');
+        // });
+        console.log(res);
+      });
 
     form.addEventListener('submit', event => {
       event.preventDefault();

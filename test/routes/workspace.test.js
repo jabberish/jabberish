@@ -10,8 +10,8 @@ describe('workspace routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          userId: user._id,
-          workspaceId: expect.any(String)
+          user: user._id,
+          workspace: expect.any(String)
         });
       });
   });
@@ -41,8 +41,8 @@ describe('workspace routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          userId: users[1]._id,
-          workspaceId: workspace._id
+          user: users[1]._id,
+          workspace: workspace._id
         });
       });
   });
@@ -52,11 +52,11 @@ describe('workspace routes', () => {
     const workspaces = getWorkspaces().slice(0, 3);
 
     await UserByWorkspace.create([{ 
-      userId: users[0]._id,
-      workspaceId: workspaces[1]._id 
+      user: users[0]._id,
+      workspace: workspaces[1]._id 
     }, { 
-      userId: users[0]._id,
-      workspaceId: workspaces[2]._id
+      user: users[0]._id,
+      workspace: workspaces[2]._id
     }]);
 
     return getAgent()
@@ -66,8 +66,12 @@ describe('workspace routes', () => {
         res.body.forEach(workspace => {
           expect(workspace).toEqual({
             _id: expect.any(String),
-            userId: users[0]._id,
-            workspaceId: expect.any(String)
+            user: users[0]._id,
+            workspace: {
+              _id: expect.any(String),
+              name: expect.any(String),
+              owner: expect.any(String)
+            }
           });
         });
       });

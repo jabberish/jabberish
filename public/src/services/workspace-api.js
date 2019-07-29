@@ -9,6 +9,15 @@ const submitAddWorkspace = (name) => {
     .then(res => res.json());
 };
 
+const getMemberWorkspaces = () => {
+  return fetch('http://localhost:3000/api/v1/workspaces/member', {
+    method: 'get',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json());
+};
+
 export {
-  submitAddWorkspace
+  submitAddWorkspace,
+  getMemberWorkspaces
 };

@@ -7,17 +7,15 @@ module.exports = async({ users = 3, maxWorkspaces = 2 } = {}) => {
     username: chance.name(),
     password: 'password'
   })));
-  console.log(typeof createdUsers);
+
   const createdWorkspaces = await Workspace.create(createdUsers.flatMap(user => {
-    console.log(user);
     return [...Array(chance.integer({ min: 1, max: maxWorkspaces }))]
       .map(() => ({
         name: chance.animal(),
         owner: user._id
       }));
   }));
-  console.log('workspaces', createdWorkspaces);
-
+  
   return {
     users: createdUsers,
     workspaces: createdWorkspaces

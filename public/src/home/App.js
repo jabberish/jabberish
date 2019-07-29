@@ -16,6 +16,8 @@ class App extends Component {
     return /*html*/`
       <div>
           <h1>Jabberish is working</h1>
+          <h2>Workspaces</h2>
+          <ul class="workspaces"></ul>
           <a href="./login.html">login</a>
           <a href="./register.html">register</a>
       </div>

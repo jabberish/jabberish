@@ -15,10 +15,12 @@ describe('workspace routes', () => {
       });
   });
 
-  it('returns all workspaces', () => {
-    const workspaces = getWorkspaces();
+  it('returns all workspaces the user is an owner of', () => {
+    const user = getUsers()[0];
+    let workspaces = getWorkspaces();
+    workspaces = workspaces.filter(workspace => workspace.owner === user._id);
     return getAgent()
-      .get('/api/v1/workspaces')
+      .get('/api/v1/workspaces/owner')
       .then(res => {
         expect(res.body).toHaveLength(workspaces.length);
         workspaces.forEach(workspace => {

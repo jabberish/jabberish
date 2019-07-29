@@ -1,7 +1,7 @@
 const { getAgent, getUsers, getWorkspaces } = require('../data-helpers');
 
 describe('workspace routes', () => {
-  it('creates and returns a workspace', () => {
+  it('creates a workspace and returns a user to workspace relationship', () => {
     const user = getUsers()[0];
     return getAgent()
       .post('/api/v1/workspaces')
@@ -9,8 +9,8 @@ describe('workspace routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           _id: expect.any(String),
-          name: 'test-workspace',
-          owner: user._id
+          userId: user._id,
+          workspaceId: expect.any(String)
         });
       });
   });

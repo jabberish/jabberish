@@ -29,4 +29,20 @@ describe('workspace routes', () => {
         });
       });
   });
+
+  it('adds a user to a workspace and returns a user to workspace relationship', () => {
+    const users = getUsers();
+    const workspace = getWorkspaces()[0];
+
+    return getAgent()
+      .post(`/api/v1/workspaces/add-user/${workspace._id}`)
+      .send({ username: users[1].username })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          userId: users[1]._id,
+          workspaceId: workspace._id
+        });
+      });
+  });
 });

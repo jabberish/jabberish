@@ -1,7 +1,9 @@
 import Component from '../Component.js';
+import ChannelItem from './ChannelItem.js';
+
 import { submitVerify } from '../services/auth-api.js';
 import { getWorkspaceChannels } from '../services/channel-api.js';
-import QUERY from '../utils/QUERY.js';
+import hashStorage from '../utils/hash-storage.js';
 
 // eslint-disable-next-line no-undef
 const socket = io();
@@ -11,14 +13,26 @@ class WorkspaceApp extends Component {
   render() {
     const dom = this.renderDOM();
 
-    const workspace = QUERY.parse(window.location.search).workspace;
+    const channelList = dom.querySelector('.channels');
+
+    const workspace = hashStorage.get().workspace;
 
     submitVerify()
       .then(res => console.log(res));
 
     getWorkspaceChannels(workspace)
       .then(channels => {
-        console.log(channels);
+        channels.forEach(channel => {
+          const channelItem = new ChannelItem({ 
+            channel,
+            selectChannel: (channel) => {
+              const queryProps = {
+                channel: channel._id
+              };
+              hashStorage.set(queryProps);  
+            } });
+          channelList.appendChild(channelItem.render());
+        });
       });
 
     const form = dom.querySelector('.message-form');

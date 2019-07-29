@@ -24,7 +24,7 @@ class App extends Component {
         const workspaces = res;
         workspaces.forEach(workspace => {
           const workspaceItem = new WorkspaceItem({ workspace: workspace.workspace });
-          workspaceList.appendChild(workspaceItem.renderDOM());
+          workspaceList.appendChild(workspaceItem.render());
         });
       });
 

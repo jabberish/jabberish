@@ -1,4 +1,5 @@
 const { getAgent, getUsers, getWorkspaces } = require('../data-helpers');
+const UserByWorkspace = require('../../lib/models/UserByWorkspace');
 
 describe('workspace routes', () => {
   it('creates a workspace and returns a user to workspace relationship', () => {
@@ -43,6 +44,25 @@ describe('workspace routes', () => {
           userId: users[1]._id,
           workspaceId: workspace._id
         });
+      });
+  });
+
+  it('returns all workspaces the user is a member of', async() => {
+    const users = getUsers();
+    const workspaces = getWorkspaces();
+
+    await UserByWorkspace.create([{ 
+      userId: users[0]._id,
+      workspaceId: workspaces[1]._id 
+    }, { 
+      userId: users[0]._id,
+      workspaceId: workspaces[2]._id
+    }]);
+
+    return getAgent()
+      .get('/api/v1/workspaces/member')
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
       });
   });
 });

@@ -1,7 +1,7 @@
 const { getAgent, getUsers, getWorkspaces } = require('../data-helpers');
 const UserByWorkspace = require('../../lib/models/UserByWorkspace');
 
-describe('workspace routes', () => {
+describe('workspaces routes', () => {
   it('creates a workspace and returns a user to workspace relationship', () => {
     const user = getUsers()[0];
     return getAgent()

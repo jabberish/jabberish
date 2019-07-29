@@ -5,7 +5,7 @@ class WorkspaceItem extends Component {
   renderTemplate() {
     const workspace = this.props.workspace;
     return /*html*/`
-      <li>${workspace.name}</li>
+      <a href="./Workspace.html?${workspace._id}"<li>${workspace.name}</li></a>
     `;
   }
 }

@@ -2,7 +2,7 @@ const { getToken, getUsers, getChannels } = require('../data-helpers');
 const io = require('socket.io-client');
 
 describe('auth routes', () => {
-  it('connects to a socket and sends a message', (done) => {
+  it('connects to a socket and sends a message', async(done) => {
     const token = getToken();
     const user = getUsers()[0];
     const channel = getChannels()[0];
@@ -13,11 +13,11 @@ describe('auth routes', () => {
       , 'force new connection' : true
       , transports: ['websocket']
     });
-    socket.on('chat message', (msg) => {
-      expect(msg).toEqual('Joining chat');
+    socket.on('history', (msg) => {
+      expect(msg).toEqual(expect.any(Array));
       done();
     });
     socket.emit('join', channel._id);
-    socket.emit('chat message', { room: channel._id, message: 'Joining chat', user: user });
+    // socket.emit('chat message', { room: channel._id, message: 'Joining chat', user: user });
   });
 });

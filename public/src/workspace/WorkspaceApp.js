@@ -17,6 +17,7 @@ class WorkspaceApp extends Component {
     const channelList = dom.querySelector('.channels');
     const workspace = hashStorage.get().workspace;
     let room = hashStorage.get().channel;
+    let user = null;
 
     const messageForm = dom.querySelector('.message-form');
     const channelForm = dom.querySelector('.channel-form');
@@ -27,10 +28,13 @@ class WorkspaceApp extends Component {
     const messages = dom.querySelector('#messages');
 
     submitVerify()
-      .then(res => console.log(res));
-
-    getWorkspaceChannels(workspace)
-      .then(channels => {
+      .then(verifiedUser => {
+        user = verifiedUser;
+        return Promise.all([getWorkspaceChannels(workspace),
+          verifiedUser
+        ]);
+      })
+      .then(([channels, user]) => {
         channels.forEach(channel => {
           const channelItem = new ChannelItem({ 
             channel,
@@ -41,7 +45,11 @@ class WorkspaceApp extends Component {
               hashStorage.set(queryProps);
               socket.emit('leave', room);
               socket.emit('join', channel._id);
-              socket.emit('chat message', { room: channelId, message: 'Joining chat' });
+              socket.emit('chat message', { 
+                room: channelId, 
+                message: 'Joining chat',
+                user
+              });
               messages.innerHTML = '';  
               room = channelId;
             } });
@@ -58,7 +66,7 @@ class WorkspaceApp extends Component {
 
     messageForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('chat message', { room, message: messageInput.value });
+      socket.emit('chat message', { room, message: messageInput.value, user });
       messageInput.value = '';
       return false;
     });
@@ -74,6 +82,10 @@ class WorkspaceApp extends Component {
       const li = document.createElement('li');
       li.textContent = msg;
       messages.appendChild(li);
+    });
+
+    socket.on('history', (msg) => {
+      console.log(msg);
     });
   
     return dom;

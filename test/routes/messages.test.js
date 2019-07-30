@@ -10,7 +10,8 @@ describe('auth routes', () => {
   afterAll(() => {
     http.close();
   });
-  it('connects to a socket and sends a message', async(done) => {
+  
+  it('connects to a socket and sends a message', (done) => {
     const token = getToken();
     const channel = getChannels()[0];
     const socket = io.connect('http://localhost:3001', {

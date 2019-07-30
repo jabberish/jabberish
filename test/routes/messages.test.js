@@ -1,9 +1,11 @@
-const { getToken } = require('../data-helpers');
+const { getToken, getUsers, getChannels } = require('../data-helpers');
 const io = require('socket.io-client');
 
 describe('auth routes', () => {
   it('connects to a socket and sends a message', (done) => {
     const token = getToken();
+    const user = getUsers()[0];
+    const channel = getChannels()[0];
     const socket = io.connect('http://localhost:3000', {
       extraHeaders: { Cookie: token },
       'reconnection delay' : 0
@@ -15,7 +17,7 @@ describe('auth routes', () => {
       expect(msg).toEqual('Joining chat');
       done();
     });
-    socket.emit('join', 'TESTING');
-    socket.emit('chat message', { room: 'TESTING', message: 'Joining chat' });
+    socket.emit('join', channel._id);
+    socket.emit('chat message', { room: channel._id, message: 'Joining chat', user: user });
   });
 });

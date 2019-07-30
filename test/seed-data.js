@@ -24,7 +24,7 @@ module.exports = async({ users = 3 } = {}) => {
 
   const createdChannels = await Channel
     .create(createdWorkspaces.map(workspace => {
-      return { name: workspace.name, workspace: workspace._id };
+      return { name: 'General', workspace: workspace._id };
     }));
 
   return {

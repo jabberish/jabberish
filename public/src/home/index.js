@@ -1,4 +1,3 @@
-
 import Home from './App.js';
 
 const home = new Home();

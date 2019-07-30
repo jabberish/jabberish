@@ -20,7 +20,9 @@ class loginApp extends Component {
 
       submitLogin(user)
         .then(res => {
-          console.log(res);
+          if(res._id) {
+            window.location = './index.html';
+          }
         });
     });
 

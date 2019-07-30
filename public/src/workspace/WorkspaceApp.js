@@ -45,11 +45,6 @@ class WorkspaceApp extends Component {
               hashStorage.set(queryProps);
               socket.emit('leave', room);
               socket.emit('join', channel._id);
-              socket.emit('chat message', { 
-                room: channelId, 
-                message: 'Joining chat',
-                user
-              });
               messages.innerHTML = '';  
               room = channelId;
             } });
@@ -84,8 +79,14 @@ class WorkspaceApp extends Component {
       messages.appendChild(li);
     });
 
-    socket.on('history', (msg) => {
-      console.log(msg);
+    socket.on('history', (msgs) => {
+      console.log(msgs);
+      msgs = JSON.parse(JSON.stringify(msgs));
+      msgs.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = msg.text;
+        messages.appendChild(li);
+      });
     });
   
     return dom;

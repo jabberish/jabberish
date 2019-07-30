@@ -3,6 +3,7 @@ import ChannelItem from './ChannelItem.js';
 
 import { submitVerify } from '../services/auth-api.js';
 import { getWorkspaceChannels, submitAddChannel } from '../services/channel-api.js';
+import { addWorkspaceMember } from '../services/workspace-api.js';
 import hashStorage from '../utils/hash-storage.js';
 
 // eslint-disable-next-line no-undef
@@ -16,10 +17,13 @@ class WorkspaceApp extends Component {
     const channelList = dom.querySelector('.channels');
     const workspace = hashStorage.get().workspace;
     let room = hashStorage.get().channel;
+
     const messageForm = dom.querySelector('.message-form');
     const channelForm = dom.querySelector('.channel-form');
+    const inviteForm = dom.querySelector('.invite-form');
     const messageInput = dom.querySelector('#message-input');
     const channelInput = dom.querySelector('#channel-input');
+    const inviteInput = dom.querySelector('#invite-input');
     const messages = dom.querySelector('#messages');
 
     submitVerify()
@@ -59,6 +63,13 @@ class WorkspaceApp extends Component {
       return false;
     });
 
+    inviteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log(workspace);
+      addWorkspaceMember(workspace, inviteInput.value)
+        .then(res => console.log(res));
+    });
+
     socket.on('chat message', (msg) => {
       const li = document.createElement('li');
       li.textContent = msg;
@@ -81,7 +92,13 @@ class WorkspaceApp extends Component {
               </form>
             </section>
             <ul class="channels"></ul>
+            <section>
+              <form class="invite-form" action="">
+                <input id="invite-input" autocomplete="off" default="username" /><button>Invite</button>
+              </form>
+            </section>
           </section>
+
           <section class="chat">
             <ul id="messages"></ul>
             <form class="message-form" action="">

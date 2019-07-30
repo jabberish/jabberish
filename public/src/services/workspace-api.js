@@ -1,5 +1,5 @@
 const submitAddWorkspace = (name) => {
-  return fetch('http://localhost:3000/api/v1/workspaces', {
+  return fetch('https://jabberish-app.herokuapp.com/api/v1/workspaces', {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -10,7 +10,7 @@ const submitAddWorkspace = (name) => {
 };
 
 const getMemberWorkspaces = () => {
-  return fetch('http://localhost:3000/api/v1/workspaces/member', {
+  return fetch('https://jabberish-app.herokuapp.com/api/v1/workspaces/member', {
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -18,7 +18,7 @@ const getMemberWorkspaces = () => {
 };
 
 const addWorkspaceMember = (workspace, username) => {
-  return fetch(`http://localhost:3000/api/v1/workspaces/add-user/${workspace}`, {
+  return fetch(`https://jabberish-app.herokuapp.com/api/v1/workspaces/add-user/${workspace}`, {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

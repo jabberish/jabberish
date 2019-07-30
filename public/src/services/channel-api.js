@@ -1,5 +1,5 @@
 const getWorkspaceChannels = (workspace) => {
-  return fetch(`http://localhost:3000/api/v1/channels/${workspace}`, {
+  return fetch(`https://jabberish-app.herokuapp.com/api/v1/channels/${workspace}`, {
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -7,7 +7,7 @@ const getWorkspaceChannels = (workspace) => {
 };
 
 const submitAddChannel = (name, workspace) => {
-  return fetch('http://localhost:3000/api/v1/channels/', {
+  return fetch('https://jabberish-app.herokuapp.com/api/v1/channels/', {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

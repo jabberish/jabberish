@@ -8,7 +8,7 @@ class ChannelItem extends Component {
     const channel = this.props.channel;
     
     dom.addEventListener('click', () => {
-      selectChannel(channel);
+      selectChannel(channel._id);
     });
     
     return dom;

@@ -15,6 +15,7 @@ class WorkspaceApp extends Component {
 
     const channelList = dom.querySelector('.channels');
     const workspace = hashStorage.get().workspace;
+    let room = hashStorage.get().channel;
     const messageForm = dom.querySelector('.message-form');
     const channelForm = dom.querySelector('.channel-form');
     const messageInput = dom.querySelector('#message-input');
@@ -29,11 +30,14 @@ class WorkspaceApp extends Component {
         channels.forEach(channel => {
           const channelItem = new ChannelItem({ 
             channel,
-            selectChannel: (channel) => {
+            selectChannel: (channelId) => {
               const queryProps = {
-                channel: channel._id
+                channel: channelId
               };
-              hashStorage.set(queryProps);  
+              hashStorage.set(queryProps);
+              socket.emit('join', channel._id);
+              socket.emit('chat message', { room: channelId, message: 'Joining chat' });  
+              room = channelId;
             } });
           channelList.appendChild(channelItem.render());
         });
@@ -48,7 +52,7 @@ class WorkspaceApp extends Component {
 
     messageForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('chat message', messageInput.value);
+      socket.emit('chat message', { room, message: messageInput.value });
       messageInput.value = '';
       return false;
     });
@@ -58,8 +62,7 @@ class WorkspaceApp extends Component {
       li.textContent = msg;
       messages.appendChild(li);
     });
-    
-
+  
     return dom;
   }
 

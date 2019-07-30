@@ -35,8 +35,10 @@ class WorkspaceApp extends Component {
                 channel: channelId
               };
               hashStorage.set(queryProps);
+              socket.emit('leave', room);
               socket.emit('join', channel._id);
-              socket.emit('chat message', { room: channelId, message: 'Joining chat' });  
+              socket.emit('chat message', { room: channelId, message: 'Joining chat' });
+              messages.innerHTML = '';  
               room = channelId;
             } });
           channelList.appendChild(channelItem.render());

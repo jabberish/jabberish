@@ -2,7 +2,7 @@ const { getToken } = require('../data-helpers');
 const io = require('socket.io-client');
 
 describe('auth routes', () => {
-  it('connects to a socket', (done) => {
+  it('connects to a socket and sends a message', (done) => {
     const token = getToken();
     const socket = io.connect('http://localhost:3000', {
       extraHeaders: { Cookie: token },

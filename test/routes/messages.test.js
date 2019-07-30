@@ -10,7 +10,7 @@ describe('auth routes', () => {
   afterAll(() => {
     http.close();
   });
-  
+
   it('connects to a socket and sends a message', (done) => {
     const token = getToken();
     const channel = getChannels()[0];
@@ -23,6 +23,7 @@ describe('auth routes', () => {
     });
     socket.on('history', (msg) => {
       expect(msg).toEqual(expect.any(Array));
+      socket.close();
       done();
     });
     socket.emit('join', channel._id);

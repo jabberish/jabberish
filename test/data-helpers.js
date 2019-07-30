@@ -20,6 +20,7 @@ let seededUsers = null;
 let seededWorkspaces = null;
 let seededUsersByWorkspaces = null;
 let seededChannels = null;
+let token = null;
 beforeEach(async() => {
   const { 
     users, 
@@ -33,7 +34,8 @@ beforeEach(async() => {
 
   return await agent
     .post('/api/v1/auth/signin')
-    .send({ username: seededUsers[0].username, password: 'password' });
+    .send({ username: seededUsers[0].username, password: 'password' })
+    .then(res => token = res.header['set-cookie'][0]);
 });
 
 afterAll(() => {
@@ -45,5 +47,6 @@ module.exports = {
   getUsers: () => seededUsers,
   getWorkspaces: () => seededWorkspaces,
   getUsersByWorkspaces: () => seededUsersByWorkspaces,
-  getChannels: () => seededChannels
+  getChannels: () => seededChannels,
+  getToken: () => token
 };

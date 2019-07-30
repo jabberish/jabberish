@@ -21,7 +21,7 @@ describe('auth routes', () => {
     return request(app)
       .post('/api/v1/auth/signin')
       .send({ username: user.username, password: 'password' })
-      .then(res => {
+      .then(res => { 
         expect(res.body).toEqual({
           _id: user._id,
           username: user.username,

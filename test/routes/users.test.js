@@ -1,6 +1,4 @@
 const { getWorkspaces, getAgent, getUsers } = require('../data-helpers');
-const request = require('supertest');
-const app = require('../../lib/app');
 
 describe('auth routes', () => {
   it('removes the relationship between user and workspace', () => {

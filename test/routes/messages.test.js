@@ -43,6 +43,7 @@ describe('auth routes', () => {
       expect(msgs).toHaveLength(3);
       const JSONmessages = JSON.parse(JSON.stringify(messages));
       JSONmessages.forEach(message => {
+        message.user = user;
         expect(msgs).toContainEqual(message);
       });
       socket.close();

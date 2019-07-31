@@ -70,7 +70,7 @@ class App extends Component {
   renderTemplate() {
     return /*html*/`
       <div>
-        <h1>Jabberish is working</h1>
+        <h1>Jabberish</h1>
         <a href="./login.html">login</a>
         <a href="./register.html">register</a>
         <h2>Workspaces</h2>

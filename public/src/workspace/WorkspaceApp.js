@@ -97,7 +97,7 @@ class WorkspaceApp extends Component {
   renderTemplate() {
     return /*html*/`
       <div>
-        <h1>Workspace is working</h1>
+        <h1>Workspace</h1>
         <section class="container">
           <section class="channels-container">
             <h2>Channels</h2>

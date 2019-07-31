@@ -29,6 +29,7 @@ class WorkspaceApp extends Component {
 
     submitVerify()
       .then(verifiedUser => {
+        user = verifiedUser;
         if(verifiedUser) return getWorkspaceChannels(workspace);
         throw new Error('Invalid user');
       })

@@ -30,11 +30,10 @@ class WorkspaceApp extends Component {
     submitVerify()
       .then(verifiedUser => {
         user = verifiedUser;
-        return Promise.all([getWorkspaceChannels(workspace),
-          verifiedUser
-        ]);
+        if(verifiedUser) return getWorkspaceChannels(workspace);
+        throw new Error('Invalid user');
       })
-      .then(([channels, user]) => {
+      .then((channels) => {
         channels.forEach(channel => {
           const channelItem = new ChannelItem({ 
             channel,

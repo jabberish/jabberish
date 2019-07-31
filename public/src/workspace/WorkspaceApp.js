@@ -34,21 +34,23 @@ class WorkspaceApp extends Component {
         throw new Error('Invalid user');
       })
       .then((channels) => {
-        channels.forEach(channel => {
-          const channelItem = new ChannelItem({ 
-            channel,
-            selectChannel: (channelId) => {
-              const queryProps = {
-                channel: channelId
-              };
-              hashStorage.set(queryProps);
-              socket.emit('leave', room);
-              socket.emit('join', channel._id);
-              messages.innerHTML = '';  
-              room = channelId;
-            } });
-          channelList.appendChild(channelItem.render());
-        });
+        if(channels.length) {
+          channels.forEach(channel => {
+            const channelItem = new ChannelItem({ 
+              channel,
+              selectChannel: (channelId) => {
+                const queryProps = {
+                  channel: channelId
+                };
+                hashStorage.set(queryProps);
+                socket.emit('leave', room);
+                socket.emit('join', channel._id);
+                messages.innerHTML = '';  
+                room = channelId;
+              } });
+            channelList.appendChild(channelItem.render());
+          });
+        }
       });
 
     channelForm.addEventListener('submit', (e) => {

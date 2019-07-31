@@ -28,8 +28,17 @@ const addWorkspaceMember = (workspace, username) => {
     .then(res => res.json());
 };
 
+const submitDeleteWorkspace = (workspace) => {
+  return fetch(`http://localhost:3000/api/v1/workspaces/${workspace}`, {
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json());
+};
+
 export {
   submitAddWorkspace,
   getMemberWorkspaces,
-  addWorkspaceMember
+  addWorkspaceMember,
+  submitDeleteWorkspace
 };

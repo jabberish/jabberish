@@ -82,11 +82,7 @@ describe('workspaces routes', () => {
     return getAgent()
       .delete(`/api/v1/workspaces/${workspace._id}`)
       .then(res => {
-        expect(res.body).toEqual({
-          _id: workspace._id,
-          name: workspace.name,
-          owner: workspace.owner
-        });
+        expect(res.body.deletedCount).toEqual(1);
       });
   });
 });

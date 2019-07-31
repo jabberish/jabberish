@@ -1,4 +1,4 @@
-const { getToken, getUsers, getChannels } = require('../data-helpers');
+const { getToken, getUsers, getChannels, getWorkspaces } = require('../data-helpers');
 const io = require('socket.io-client');
 const http = require('../../lib/app');
 
@@ -9,12 +9,14 @@ describe('auth routes', () => {
   let user;
   let channel;
   let messages;
+  let workspace;
   beforeEach(async() => {
     http.listen(3001);
 
     const token = getToken();
     user = getUsers()[0];
     channel = getChannels()[0];
+    workspace = getWorkspaces()[0];
 
     socket = io.connect('http://localhost:3001', {
       extraHeaders: { Cookie: token },
@@ -29,6 +31,7 @@ describe('auth routes', () => {
       return {
         user: user._id,
         channel: channel._id,
+        workspace: workspace._id,
         text: message
       };
     }));

@@ -63,7 +63,8 @@ class WorkspaceApp extends Component {
 
     messageForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('chat message', { room, message: messageInput.value, user });
+      const workspace = hashStorage.get().workspace;
+      socket.emit('chat message', { room, message: messageInput.value, user, workspace });
       messageInput.value = '';
       return false;
     });

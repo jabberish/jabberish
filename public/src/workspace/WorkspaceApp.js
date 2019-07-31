@@ -44,7 +44,7 @@ class WorkspaceApp extends Component {
                   channel: channelId
                 };
                 hashStorage.set(queryProps);
-                socket.emit('leave', room);
+                socket.emit('leave', room, user);
                 socket.emit('join', channel._id);
                 messages.innerHTML = '';  
                 room = channelId;

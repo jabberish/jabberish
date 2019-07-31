@@ -52,7 +52,7 @@ describe('auth routes', () => {
       socket.close();
       done();
     });
-    socket.emit('join', channel._id);
+    socket.emit('join', { channel: channel._id, workspace, user });
     socket.emit('leave', channel._id);
   });
 });

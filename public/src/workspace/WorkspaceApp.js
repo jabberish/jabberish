@@ -56,6 +56,7 @@ class WorkspaceApp extends Component {
       const workspace = hashStorage.get().workspace;
       submitAddChannel(channelInput.value, workspace)
         .then(res => console.log(res));
+      channelInput.value = '';
     });
 
     messageForm.addEventListener('submit', (e) => {
@@ -67,14 +68,14 @@ class WorkspaceApp extends Component {
 
     inviteForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(workspace);
       addWorkspaceMember(workspace, inviteInput.value)
         .then(res => console.log(res));
+      inviteInput.value = '';
     });
 
     socket.on('chat message', (msg) => {
       const li = document.createElement('li');
-      li.textContent = msg;
+      li.textContent = `${msg.user.username}: ${msg.text}`;
       messages.appendChild(li);
     });
 
@@ -83,7 +84,7 @@ class WorkspaceApp extends Component {
       msgs = JSON.parse(JSON.stringify(msgs));
       msgs.forEach(msg => {
         const li = document.createElement('li');
-        li.textContent = msg.text;
+        li.textContent = `${msg.user.username}: ${msg.text}`;
         messages.appendChild(li);
       });
     });

@@ -76,4 +76,17 @@ describe('workspaces routes', () => {
         });
       });
   });
+
+  it('deletes the workspace by the user who owns it', () => {
+    const workspace = getWorkspaces()[0];
+    return getAgent()
+      .delete(`/api/v1/workspaces/${workspace._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: workspace._id,
+          name: workspace.name,
+          owner: workspace.owner
+        });
+      });
+  });
 });

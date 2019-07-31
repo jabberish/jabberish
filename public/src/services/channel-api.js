@@ -18,7 +18,16 @@ const submitAddChannel = (name, workspace) => {
     .then(res => res.json());
 };
 
+const submitDeleteChannel = (channelId, workspaceId) => {
+  return fetch(`http://localhost:3000/api/v1/channels/${channelId}/${workspaceId}`, {
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json());
+};
+
 export {
   getWorkspaceChannels,
-  submitAddChannel
+  submitAddChannel,
+  submitDeleteChannel
 };

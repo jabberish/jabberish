@@ -38,6 +38,7 @@ class WorkspaceApp extends Component {
           channels.forEach(channel => {
             const channelItem = new ChannelItem({ 
               channel,
+              workspaceId: workspace,
               selectChannel: (channelId) => {
                 const queryProps = {
                   channel: channelId
@@ -47,7 +48,8 @@ class WorkspaceApp extends Component {
                 socket.emit('join', channel._id);
                 messages.innerHTML = '';  
                 room = channelId;
-              } });
+              },
+            });
             channelList.appendChild(channelItem.render());
           });
         }

@@ -1,4 +1,4 @@
-const { getAgent, getWorkspaces } = require('../data-helpers');
+const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
 
 describe('channels routes', () => {
   it('creates a channel in a workspace the user is a member of', () => {
@@ -27,6 +27,19 @@ describe('channels routes', () => {
             name: expect.any(String),
             workspace: expect.any(String)
           });
+        });
+      });
+  });
+
+  it('deletes a channel by a member of it`s workspace', () => {
+    const channel = getChannels()[0];
+    return getAgent()
+      .delete(`/api/v1/channels/${channel._id}/${channel.workspace}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: channel._id,
+          name: channel.name,
+          workspace: channel.workspace
         });
       });
   });

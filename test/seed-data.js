@@ -1,10 +1,11 @@
 const User = require('../lib/models/User');
 const Workspace = require('../lib/models/Workspace');
 const Channel = require('../lib/models/Channel');
+const Message = require('../lib/models/Message');
 const UserByWorkspace = require('../lib/models/UserByWorkspace');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 10, maxWorkspaces = 3, maxChannels = 5 } = {}) => {
+module.exports = async({ users = 10, maxWorkspaces = 3, maxChannels = 5, maxMessages = 50 } = {}) => {
   const createdUsers = await User.create([...Array(users)].map(() => ({
     username: chance.name(),
     password: 'password'
@@ -32,10 +33,21 @@ module.exports = async({ users = 10, maxWorkspaces = 3, maxChannels = 5 } = {}) 
       }));
   }));
 
+  const createdMessages = await Message.create(createdChannels.flatMap(channel => {
+    return [...Array(chance.integer({ min: 1, max: maxMessages }))]
+      .map(() => ({
+        user: chance.pickone(createdUsers)._id,
+        channel: channel._id,
+        workspace: channel.workspace,
+        text: chance.sentence()
+      }));
+  }));
+
   return {
     users: createdUsers,
     workspaces: createdWorkspaces,
     usersByWorkspaces: createdUsersByWorkspaces,
-    channels: createdChannels
+    channels: createdChannels,
+    messages: createdMessages
   };
 };

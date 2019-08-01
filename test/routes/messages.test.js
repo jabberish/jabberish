@@ -2,13 +2,10 @@ const { getToken, getUsers, getChannels, getWorkspaces } = require('../data-help
 const io = require('socket.io-client');
 const http = require('../../lib/app');
 
-const Message = require('../../lib/models/Message');
-
 describe('auth routes', () => {
   let socket;
   let user;
   let channel;
-  let messages;
   let workspace;
   beforeEach(async() => {
     http.listen(3001);
@@ -25,29 +22,24 @@ describe('auth routes', () => {
       'force new connection' : true, 
       transports: ['websocket']
     });
-
-    const seedMessages = ['message 1', 'message 2', 'message 3'];
-    messages = await Message.create(seedMessages.map(message => {
-      return {
-        user: user._id,
-        channel: channel._id,
-        workspace: workspace._id,
-        text: message
-      };
-    }));
   });
 
   afterAll(() => {
     http.close();
   });
 
-  it('connects to a socket and sends a message', (done) => {
+  it('connects to a room and returns the chat history', (done) => {
     socket.on('history', (msgs) => {
-      expect(msgs).toHaveLength(3);
-      const JSONmessages = JSON.parse(JSON.stringify(messages));
-      JSONmessages.forEach(message => {
-        message.user = user;
-        expect(msgs).toContainEqual(message);
+      expect(msgs).toEqual(expect.any(Array));
+      expect(msgs[0]).toEqual({
+        _id: expect.any(String),
+        user: expect.any(Object),
+        channel: channel._id,
+        workspace: workspace._id,
+        text: expect.any(String),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        __v: 0
       });
       socket.close();
       done();

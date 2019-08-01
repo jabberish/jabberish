@@ -62,7 +62,7 @@ describe('workspaces routes', () => {
     return getAgent()
       .get('/api/v1/workspaces/member')
       .then(res => {
-        expect(res.body).toHaveLength(3);
+        expect(res.body).toEqual(expect.any(Array));
         res.body.forEach(workspace => {
           expect(workspace).toEqual({
             _id: expect.any(String),

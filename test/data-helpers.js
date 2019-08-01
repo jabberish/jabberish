@@ -20,18 +20,21 @@ let seededUsers = null;
 let seededWorkspaces = null;
 let seededUsersByWorkspaces = null;
 let seededChannels = null;
+let seededMessages = null;
 let token = null;
 beforeEach(async() => {
   const { 
     users, 
     workspaces, 
     usersByWorkspaces, 
-    channels } = await seedData();
+    channels,
+    messages } = await seedData();
   seededUsers = prepare(users);
   seededWorkspaces = prepare(workspaces);
   seededUsersByWorkspaces = prepare(usersByWorkspaces);
   seededChannels = prepare(channels);
-
+  seededMessages = prepare(messages);
+  
   return await agent
     .post('/api/v1/auth/signin')
     .send({ username: seededUsers[0].username, password: 'password' })
@@ -48,5 +51,6 @@ module.exports = {
   getWorkspaces: () => seededWorkspaces,
   getUsersByWorkspaces: () => seededUsersByWorkspaces,
   getChannels: () => seededChannels,
+  getMessages: () => seededMessages,
   getToken: () => token
 };

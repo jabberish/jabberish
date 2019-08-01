@@ -85,7 +85,6 @@ class WorkspaceApp extends Component {
     });
 
     socket.on('history', (msgs) => {
-      console.log(msgs);
       msgs = JSON.parse(JSON.stringify(msgs));
       msgs.forEach(msg => {
         const li = document.createElement('li');

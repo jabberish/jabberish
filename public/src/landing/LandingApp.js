@@ -1,17 +1,6 @@
 import Component from '../Component.js';
-import { submitVerify } from '../services/auth-api.js';
 
 class LandingApp extends Component {
-
-  render() {
-    const dom = this.renderDOM();
-
-    submitVerify()
-      .then(res => console.log(res));
-
-    return dom;
-  }
-
   renderTemplate() {
     return /*html*/`
       <div>

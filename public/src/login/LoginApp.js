@@ -40,7 +40,6 @@ class loginApp extends Component {
           <label>Password:
             <input id="password" name="password" type="password" required></input>
           </label>
-          <p class="login-error">${this.props.loginSuccess ? '' : 'username and password couldn`t be verified.'}</p>
           <button>Submit</button>
         </form>
       </div>

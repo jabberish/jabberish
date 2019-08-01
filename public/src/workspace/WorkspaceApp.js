@@ -58,8 +58,7 @@ class WorkspaceApp extends Component {
     channelForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const workspace = hashStorage.get().workspace;
-      submitAddChannel(channelInput.value, workspace)
-        .then(res => console.log(res));
+      submitAddChannel(channelInput.value, workspace);
       channelInput.value = '';
     });
 
@@ -73,8 +72,7 @@ class WorkspaceApp extends Component {
 
     inviteForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      addWorkspaceMember(workspace, inviteInput.value)
-        .then(res => console.log(res));
+      addWorkspaceMember(workspace, inviteInput.value);
       inviteInput.value = '';
     });
 

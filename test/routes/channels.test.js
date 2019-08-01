@@ -54,4 +54,16 @@ describe('channels routes', () => {
         });
       });
   });
+
+  it('returns the top channels by the most unique active users', () => {
+    return getAgent()
+      .get('/api/v1/channels/unique')
+      .then(res => {
+        console.log(res.body);
+        expect(res.body).toHaveLength(10);
+        res.body.slice(0, 9).forEach((workspace, i) => {
+          expect(res.body[i].users).toBeGreaterThanOrEqual(res.body[i + 1].users);
+        });
+      });
+  });
 });

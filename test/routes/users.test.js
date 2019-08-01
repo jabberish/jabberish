@@ -14,4 +14,15 @@ describe('auth routes', () => {
         });
       });
   });
+
+  it('returns the top active users by the amount of messages they send', () => {
+    return getAgent()
+      .get('/api/v1/users/active')
+      .then(res => {
+        expect(res.body).toHaveLength(10);
+        res.body.slice(0, 9).forEach((user, i) => {
+          expect(res.body[i].count).toBeGreaterThanOrEqual(res.body[i + 1].count);
+        });
+      });
+  });
 });

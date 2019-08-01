@@ -85,4 +85,15 @@ describe('workspaces routes', () => {
         expect(res.body.ok).toEqual(1);
       });
   });
+
+  it('returns a list of the most active workspaces by the number of messges', () => {
+    return getAgent()
+      .get('/api/v1/workspaces/active')
+      .then(res => {
+        expect(res.body).toHaveLength(10);
+        res.body.slice(0, 9).forEach((workspace, i) => {
+          expect(res.body[i].count).toBeGreaterThanOrEqual(res.body[i + 1].count);
+        });
+      });
+  });
 });

@@ -43,4 +43,15 @@ describe('channels routes', () => {
         });
       });
   });
+
+  it('returns a list of the top active channels by how many messages they have', () => {
+    return getAgent()
+      .get('/api/v1/channels/active')
+      .then(res => {
+        expect(res.body).toHaveLength(10);
+        res.body.slice(0, 9).forEach((workspace, i) => {
+          expect(res.body[i].count).toBeGreaterThanOrEqual(res.body[i + 1].count);
+        });
+      });
+  });
 });

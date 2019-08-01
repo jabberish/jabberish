@@ -36,9 +36,18 @@ const submitDeleteWorkspace = (workspace) => {
     .then(res => res.json());
 };
 
+const submitLeaveWorkspace = (workspace) => {
+  return fetch(`http://localhost:3000/api/v1/users/workspace/${workspace}`, {
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then(res => res.json());
+};
+
 export {
   submitAddWorkspace,
   getMemberWorkspaces,
   addWorkspaceMember,
-  submitDeleteWorkspace
+  submitDeleteWorkspace,
+  submitLeaveWorkspace
 };

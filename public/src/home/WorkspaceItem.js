@@ -1,6 +1,6 @@
 import Component from '../Component.js';
 
-import { submitDeleteWorkspace } from '../services/workspace-api.js';
+import { submitDeleteWorkspace, submitLeaveWorkspace } from '../services/workspace-api.js';
 
 class WorkspaceItem extends Component {
 
@@ -8,6 +8,7 @@ class WorkspaceItem extends Component {
     const dom = this.renderDOM();
 
     const deleteWorkspace = dom.querySelector('.delete-workspace');
+    const leaveWorkspace = dom.querySelector('.leave-workspace');
 
     const workspace = this.props.workspace;
 
@@ -16,6 +17,16 @@ class WorkspaceItem extends Component {
         submitDeleteWorkspace(workspace._id)
           .then(res => {
             if(!res.ok) throw new Error('Error deleting workspace');
+          }) 
+          .catch(err => console.log(err));
+      });
+    }
+
+    if(leaveWorkspace) {
+      leaveWorkspace.addEventListener('click', () => {
+        submitLeaveWorkspace(workspace._id)
+          .then(res => {
+            if(!res.ok) throw new Error('Error leaving workspace');
           }) 
           .catch(err => console.log(err));
       });
@@ -32,7 +43,7 @@ class WorkspaceItem extends Component {
       <a href="./workspace.html#workspace=${workspace._id}">
         <h3>${workspace.name}</h3>
       </a>
-      ${user._id === workspace.owner ? '<button class="delete-workspace">Delete</button>' : ''}
+      ${user._id === workspace.owner ? '<button class="delete-workspace">Delete</button>' : '<button class="leave-workspace">Leave</button>'}
     </li>
       
     `;

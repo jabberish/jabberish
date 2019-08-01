@@ -4,7 +4,7 @@ const Channel = require('../lib/models/Channel');
 const UserByWorkspace = require('../lib/models/UserByWorkspace');
 const chance = require('chance').Chance();
 
-module.exports = async({ users = 10, maxWorkspaces = 3 } = {}) => {
+module.exports = async({ users = 10, maxWorkspaces = 3, maxChannels = 5 } = {}) => {
   const createdUsers = await User.create([...Array(users)].map(() => ({
     username: chance.name(),
     password: 'password'
@@ -24,10 +24,13 @@ module.exports = async({ users = 10, maxWorkspaces = 3 } = {}) => {
       return { user: workspace.owner, workspace: workspace._id };
     }));
 
-  const createdChannels = await Channel
-    .create(createdWorkspaces.map(workspace => {
-      return { name: 'General', workspace: workspace._id };
-    }));
+  const createdChannels = await Channel.create(createdWorkspaces.flatMap(workspace => {
+    return [...Array(chance.integer({ min: 1, max: maxChannels }))]
+      .map(() => ({
+        name: chance.animal(),
+        workspace: workspace._id
+      }));
+  }));
 
   return {
     users: createdUsers,

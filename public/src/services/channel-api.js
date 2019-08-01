@@ -19,7 +19,7 @@ const submitAddChannel = (name, workspace) => {
 };
 
 const submitDeleteChannel = (channelId, workspaceId) => {
-  return fetch(`http://localhost:3000/api/v1/channels/${channelId}/${workspaceId}`, {
+  return fetch(`https://jabberish-app.herokuapp.com/api/v1/channels/${channelId}/${workspaceId}`, {
     method: 'delete',
     headers: { 'Content-Type': 'application/json' },
   })

@@ -29,7 +29,7 @@ const addWorkspaceMember = (workspace, username) => {
 };
 
 const submitDeleteWorkspace = (workspace) => {
-  return fetch(`http://localhost:3000/api/v1/workspaces/${workspace}`, {
+  return fetch(`https://jabberish-app.herokuapp.com/api/v1/workspaces/${workspace}`, {
     method: 'delete',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -37,7 +37,7 @@ const submitDeleteWorkspace = (workspace) => {
 };
 
 const submitLeaveWorkspace = (workspace) => {
-  return fetch(`http://localhost:3000/api/v1/users/workspace/${workspace}`, {
+  return fetch(`https://jabberish-app.herokuapp.com/api/v1/users/workspace/${workspace}`, {
     method: 'delete',
     headers: { 'Content-Type': 'application/json' },
   })

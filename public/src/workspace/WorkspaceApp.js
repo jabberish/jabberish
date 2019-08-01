@@ -30,26 +30,29 @@ class WorkspaceApp extends Component {
     submitVerify()
       .then(verifiedUser => {
         user = verifiedUser;
-        return Promise.all([getWorkspaceChannels(workspace),
-          verifiedUser
-        ]);
+        if(verifiedUser) return getWorkspaceChannels(workspace);
+        throw new Error('Invalid user');
       })
-      .then(([channels, user]) => {
-        channels.forEach(channel => {
-          const channelItem = new ChannelItem({ 
-            channel,
-            selectChannel: (channelId) => {
-              const queryProps = {
-                channel: channelId
-              };
-              hashStorage.set(queryProps);
-              socket.emit('leave', room);
-              socket.emit('join', channel._id);
-              messages.innerHTML = '';  
-              room = channelId;
-            } });
-          channelList.appendChild(channelItem.render());
-        });
+      .then((channels) => {
+        if(channels.length) {
+          channels.forEach(channel => {
+            const channelItem = new ChannelItem({ 
+              channel,
+              workspaceId: workspace,
+              selectChannel: (channelId) => {
+                const queryProps = {
+                  channel: channelId
+                };
+                hashStorage.set(queryProps);
+                socket.emit('leave', channel._id);
+                socket.emit('join', { channel: channel._id, workspace, user });
+                messages.innerHTML = '';  
+                room = channelId;
+              },
+            });
+            channelList.appendChild(channelItem.render());
+          });
+        }
       });
 
     channelForm.addEventListener('submit', (e) => {
@@ -57,25 +60,27 @@ class WorkspaceApp extends Component {
       const workspace = hashStorage.get().workspace;
       submitAddChannel(channelInput.value, workspace)
         .then(res => console.log(res));
+      channelInput.value = '';
     });
 
     messageForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      socket.emit('chat message', { room, message: messageInput.value, user });
+      const workspace = hashStorage.get().workspace;
+      socket.emit('chat message', { room, message: messageInput.value, user, workspace });
       messageInput.value = '';
       return false;
     });
 
     inviteForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(workspace);
       addWorkspaceMember(workspace, inviteInput.value)
         .then(res => console.log(res));
+      inviteInput.value = '';
     });
 
     socket.on('chat message', (msg) => {
       const li = document.createElement('li');
-      li.textContent = msg;
+      li.textContent = `${msg.user.username}: ${msg.text}`;
       messages.appendChild(li);
     });
 
@@ -84,7 +89,7 @@ class WorkspaceApp extends Component {
       msgs = JSON.parse(JSON.stringify(msgs));
       msgs.forEach(msg => {
         const li = document.createElement('li');
-        li.textContent = msg.text;
+        li.textContent = `${msg.user.username}: ${msg.text}`;
         messages.appendChild(li);
       });
     });
@@ -95,7 +100,7 @@ class WorkspaceApp extends Component {
   renderTemplate() {
     return /*html*/`
       <div>
-        <h1>Workspace is working</h1>
+        <h1>Workspace</h1>
         <section class="container">
           <section class="channels-container">
             <h2>Channels</h2>

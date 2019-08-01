@@ -15,18 +15,29 @@ class App extends Component {
 
     const form = dom.querySelector('#workspace-form');
     const workspaceList = dom.querySelector('.workspaces');
+    const formInput = dom.querySelector('.form-input');
+
+    let user = null;
 
     submitVerify()
-      .then(res => console.log(res));
-
-    getMemberWorkspaces()
+      .then(res => {
+        if(!res) throw new Error('No user');
+        user = res;
+        return getMemberWorkspaces();
+      })
       .then(res => {
         const workspaces = res;
-        workspaces.forEach(workspace => {
-          const workspaceItem = new WorkspaceItem({ workspace: workspace.workspace });
-          workspaceList.appendChild(workspaceItem.render());
-        });
-      });
+        if(workspaces.length) {
+          workspaces.forEach(workspace => {
+            const workspaceItem = new WorkspaceItem({ 
+              workspace: workspace.workspace,
+              user 
+            });
+            workspaceList.appendChild(workspaceItem.render());
+          });
+        }
+      })
+      .catch(err => console.log(err));
 
     form.addEventListener('submit', event => {
       event.preventDefault();
@@ -37,8 +48,20 @@ class App extends Component {
         name: formData.get('name')
       };
 
+      formInput.value = '';
+
       submitAddWorkspace(workspace.name)
-        .then(res => console.log(res));
+        .then(res => {
+          workspace.owner = res.user;
+          workspace._id = res.workspace;
+          if(!res._id) throw new Error('Workspace creation failed');
+          const workspaceItem = new WorkspaceItem({ 
+            workspace,
+            user 
+          });
+          workspaceList.appendChild(workspaceItem.render());
+        })
+        .catch(err => console.log(err));
     });
 
     return dom;
@@ -47,7 +70,7 @@ class App extends Component {
   renderTemplate() {
     return /*html*/`
       <div>
-        <h1>Jabberish is working</h1>
+        <h1>Jabberish</h1>
         <a href="./login.html">login</a>
         <a href="./register.html">register</a>
         <h2>Workspaces</h2>
@@ -55,7 +78,7 @@ class App extends Component {
         <h2>Add New Workspace</h2>
         <form id="workspace-form">
           <label>workspace name:
-            <input id="name" name="name" required>
+            <input class="form-input" id="name" name="name" required>
           </label>
           <button>Submit</button>
         </form>

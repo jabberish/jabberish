@@ -32,7 +32,7 @@ class loginApp extends Component {
   renderTemplate() {
     return /*html*/`
       <div>
-          <h1>Register is working</h2>
+          <h1>Register</h2>
           <form id="register-form">
             <label>username:
               <input id="username" name="username" required>

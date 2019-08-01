@@ -21,7 +21,7 @@ class App extends Component {
 
     submitVerify()
       .then(res => {
-        if(!res) throw new Error('No user');
+        if(!res._id) window.location = './landing.html';
         user = res;
         return getMemberWorkspaces();
       })

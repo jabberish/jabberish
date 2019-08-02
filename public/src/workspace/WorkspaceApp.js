@@ -67,7 +67,6 @@ class WorkspaceApp extends Component {
       const workspace = hashStorage.get().workspace;
       socket.emit('chat message', { room, message: messageInput.value, user, workspace });
       messageInput.value = '';
-      return false;
     });
 
     inviteForm.addEventListener('submit', (e) => {

@@ -12,7 +12,7 @@ Jabberish is a chat application project of which the back end has recieved most 
 # Build/Test/Run
 
 * To build the application simply clone it on to your local machine.
-* Once the project is on your machine, run 'npm i' in the project directory.
+* Once the project is on your machine, run 'npm i' in the project directory to install the necessary node modules.
 * use 'npm run start' to start the server.
 * use 'npm run start:watch' to restart the server on save.
 * use 'npm run test' to run the tests.

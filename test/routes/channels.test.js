@@ -1,5 +1,7 @@
 const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
 
+process.env.NODE_ENV = 'test';
+
 describe('channels routes', () => {
   it('creates a channel in a workspace the user is a member of', () => {
     const workspace = getWorkspaces()[0];
@@ -59,7 +61,6 @@ describe('channels routes', () => {
     return getAgent()
       .get('/api/v1/channels/unique')
       .then(res => {
-        console.log(res.body);
         expect(res.body).toHaveLength(10);
         res.body.slice(0, 9).forEach((workspace, i) => {
           expect(res.body[i].users).toBeGreaterThanOrEqual(res.body[i + 1].users);

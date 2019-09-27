@@ -2,6 +2,8 @@ const { getUsers, getAgent } = require('../data-helpers');
 const request = require('supertest');
 const { http } = require('../../lib/app');
 
+process.env.NODE_ENV = 'test';
+
 describe('auth routes', () => {
   it('creates and returns a user', () => {
     return request(http)

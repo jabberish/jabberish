@@ -1,6 +1,6 @@
 const { getToken, getUsers, getChannels, getWorkspaces } = require('../data-helpers');
 const io = require('socket.io-client');
-const http = require('../../lib/app');
+const { http } = require('../../lib/app');
 
 describe('auth routes', () => {
   let socket;

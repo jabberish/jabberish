@@ -1,10 +1,10 @@
 const { getUsers, getAgent } = require('../data-helpers');
 const request = require('supertest');
-const app = require('../../lib/app');
+const { http } = require('../../lib/app');
 
 describe('auth routes', () => {
   it('creates and returns a user', () => {
-    return request(app)
+    return request(http)
       .post('/api/v1/auth/signup')
       .send({ username: 'test', password: 'password' })
       .then(res => {
@@ -18,7 +18,7 @@ describe('auth routes', () => {
 
   it('can signin a user', () => {
     const user = getUsers()[1];
-    return request(app)
+    return request(http)
       .post('/api/v1/auth/signin')
       .send({ username: user.username, password: 'password' })
       .then(res => { 

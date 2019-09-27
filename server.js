@@ -1,7 +1,7 @@
 require('dotenv').config();
 require('./lib/utils/connect')();
 
-const http = require('./lib/app');
+const { http } = require('./lib/app');
 
 const PORT = process.env.PORT || 3000;
 

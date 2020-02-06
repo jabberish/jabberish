@@ -47,17 +47,20 @@ describe('workspaces routes', () => {
       });
   });
 
-  it('returns all workspaces the user is a member of', async() => {
+  it('returns all workspaces the user is a member of', async () => {
     const users = getUsers();
     const workspaces = getWorkspaces().slice(0, 3);
 
-    await UserByWorkspace.create([{ 
-      user: users[0]._id,
-      workspace: workspaces[1]._id 
-    }, { 
-      user: users[0]._id,
-      workspace: workspaces[2]._id
-    }]);
+    await UserByWorkspace.create([
+      {
+        user: users[0]._id,
+        workspace: workspaces[1]._id
+      },
+      {
+        user: users[0]._id,
+        workspace: workspaces[2]._id
+      }
+    ]);
 
     return getAgent()
       .get('/api/v1/workspaces/member')

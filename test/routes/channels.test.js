@@ -1,5 +1,7 @@
 const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
 
+process.env.NODE_ENV = 'test';
+
 describe('channels routes', () => {
   it('creates a channel in a workspace the user is a member of', () => {
     const workspace = getWorkspaces()[0];

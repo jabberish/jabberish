@@ -3,7 +3,7 @@ const seedData = require('./seed-data');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 const request = require('supertest');
-const app = require('../lib/app');
+const { http } = require('../lib/app');
 
 const prepare = arr => JSON.parse(JSON.stringify(arr));
 
@@ -15,7 +15,7 @@ beforeEach(() => {
   return mongoose.connection.dropDatabase();
 });
 
-let agent = request.agent(app);
+let agent = request.agent(http);
 let seededUsers = null;
 let seededWorkspaces = null;
 let seededUsersByWorkspaces = null;

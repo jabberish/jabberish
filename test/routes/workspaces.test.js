@@ -1,6 +1,8 @@
 const { getAgent, getUsers, getWorkspaces } = require('../data-helpers');
 const UserByWorkspace = require('../../lib/models/UserByWorkspace');
 
+process.env.NODE_ENV = 'test';
+
 describe('workspaces routes', () => {
   it('creates a workspace and returns a user to workspace relationship', () => {
     const user = getUsers()[0];

@@ -1,5 +1,7 @@
 const { getWorkspaces, getAgent, getUsers } = require('../data-helpers');
 
+process.env.NODE_ENV = 'test';
+
 describe('auth routes', () => {
   it('removes the relationship between user and workspace', () => {
     const workspace = getWorkspaces()[0];

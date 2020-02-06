@@ -9,7 +9,7 @@ describe('auth routes', () => {
   let user;
   let channel;
   let workspace;
-  beforeEach(async() => {
+  beforeEach(async () => {
     http.listen(3001);
 
     const token = getToken();
@@ -19,9 +19,9 @@ describe('auth routes', () => {
 
     socket = io.connect('http://localhost:3001', {
       extraHeaders: { Cookie: token },
-      'reconnection delay' : 0, 
-      'reopen delay' : 0, 
-      'force new connection' : true, 
+      'reconnection delay': 0,
+      'reopen delay': 0,
+      'force new connection': true,
       transports: ['websocket']
     });
   });
@@ -30,8 +30,8 @@ describe('auth routes', () => {
     http.close();
   });
 
-  it('connects to a room and returns the chat history', (done) => {
-    socket.on('history', (msgs) => {
+  it('connects to a room and returns the chat history', done => {
+    socket.on('history', msgs => {
       expect(msgs).toEqual(expect.any(Array));
       expect(msgs[0]).toEqual({
         _id: expect.any(String),

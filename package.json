@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose --runInBand",
+    "test:coverage": "jest --verbose --runInBand --coverage",
     "test:watch": "npm run test -- --watch",
     "start": "node server.js",
     "start:watch": "nodemon server.js"

@@ -45,6 +45,18 @@ describe('auth routes', () => {
       })
   })
 
+  it('can block a user from using an incorrect password', () => {
+    return request(http)
+      .post('/api/v1/auth/signin')
+      .send({username: 'not-it', password: 'not-it'})
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 401,
+          message: 'Invalid username/password'
+        })
+      })
+  })
+
   it('can verify that a user is signed in', () => {
     // create a user
     const user = getUsers()[0];

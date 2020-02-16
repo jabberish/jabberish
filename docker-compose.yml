@@ -1,0 +1,21 @@
+version: '2.2'
+
+services:
+  backend:
+    container_name: jabberish
+    build: ./
+    command: npm start
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/usr/src/app
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27027:27027"

@@ -45,7 +45,7 @@ describe('auth routes', () => {
       })
   })
 
-  it('can block a user from using an incorrect password', () => {
+  it('can block a user from using an incorrect username and password', () => {
     return request(http)
       .post('/api/v1/auth/signin')
       .send({username: 'not-it', password: 'not-it'})

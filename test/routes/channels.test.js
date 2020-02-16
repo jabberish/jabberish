@@ -1,4 +1,6 @@
 const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
+const request = require('supertest');
+const { http } = require('../../lib/app');
 
 process.env.NODE_ENV = 'test';
 
@@ -17,6 +19,32 @@ describe('channels routes', () => {
       });
   });
 
+  it('fails to create a channel in a workspace the user is not a member of', () => {
+    const workspace = getWorkspaces()[4];
+    return getAgent()
+      .post('/api/v1/channels')
+      .send({ name: 'test-channel', workspace: workspace._id })
+      .then(res => {
+        expect(res.body).toEqual({
+          status:403,
+          message: 'You must be a member of a workspace to add a channel' 
+        });
+      });
+  });
+
+  it('fails to create a workspace because no token', () => {
+    const workspace = getWorkspaces()[0];
+    return request(http)
+      .post('/api/v1/channels')
+      .send({ name: 'test-channel', workspace: workspace._id })
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 401,
+          message: 'No session cookie'
+        })
+      });
+  });
+
   it('returns a list of all channels in workspace the user is a member of', () => {
     const workspace = getWorkspaces()[0];
     return getAgent()
@@ -29,6 +57,18 @@ describe('channels routes', () => {
             name: expect.any(String),
             workspace: expect.any(String)
           });
+        });
+      });
+  });
+
+  it('fails to get channels for a workspace the user is not a member of', () => {
+    const workspace = getWorkspaces()[4];
+    return getAgent()
+      .get(`/api/v1/channels/${workspace._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 403,
+          message: "You must be a member of a workspace to view its channels"
         });
       });
   });

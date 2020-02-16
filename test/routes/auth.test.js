@@ -32,6 +32,31 @@ describe('auth routes', () => {
       });
   });
 
+  it('can block a user from using an incorrect password', () => {
+    const user = getUsers()[1];
+    return request(http)
+      .post('/api/v1/auth/signin')
+      .send({username: user.username, password: 'not-it'})
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 401,
+          message: 'Invalid username/password'
+        })
+      })
+  })
+
+  it('can block a user from using an incorrect username and password', () => {
+    return request(http)
+      .post('/api/v1/auth/signin')
+      .send({username: 'not-it', password: 'not-it'})
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 401,
+          message: 'Invalid username/password'
+        })
+      })
+  })
+
   it('can verify that a user is signed in', () => {
     // create a user
     const user = getUsers()[0];

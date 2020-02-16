@@ -49,6 +49,40 @@ describe('workspaces routes', () => {
       });
   });
 
+  it('fails to add a user to an unauthorized workspace', () => {
+    const users = getUsers();
+    const workspace = getWorkspaces()[4];
+
+    return getAgent()
+      .post(`/api/v1/workspaces/add-user/${workspace._id}`)
+      .send({ username: users[1].username })
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 403,
+          message: 'You are not allowed to add users to this workspace'
+        });
+      });
+  });
+
+  it('fails to add a user to an unauthorized workspace', () => {
+    const users = getUsers();
+    const workspace = getWorkspaces()[0];
+    getAgent()
+      .delete(`/api/v1/workspaces/${workspace._id}`)
+      .then(res => {
+        expect(res.body.ok).toEqual(1);
+      })
+    return getAgent()
+      .post(`/api/v1/workspaces/add-user/${workspace._id}`)
+      .send({ username: users[1].username })
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 404,
+          message: 'Workspace not found'
+        });
+      });
+  });
+
   it('returns all workspaces the user is a member of', async () => {
     const users = getUsers();
     const workspaces = getWorkspaces().slice(0, 3);

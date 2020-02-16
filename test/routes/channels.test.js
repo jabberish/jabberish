@@ -1,4 +1,6 @@
 const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
+const request = require('supertest');
+const { http } = require('../../lib/app');
 
 process.env.NODE_ENV = 'test';
 
@@ -14,6 +16,19 @@ describe('channels routes', () => {
           name: 'test-channel',
           workspace: workspace._id
         });
+      });
+  });
+
+  it('fails to create a workspace because no token', () => {
+    const workspace = getWorkspaces()[0];
+    return request(http)
+      .post('/api/v1/channels')
+      .send({ name: 'test-channel', workspace: workspace._id })
+      .then(res => {
+        expect(res.body).toEqual({
+          status: 401,
+          message: 'No session cookie'
+        })
       });
   });
 

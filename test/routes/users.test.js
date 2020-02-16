@@ -21,8 +21,8 @@ describe('auth routes', () => {
     return getAgent()
       .get('/api/v1/users/active')
       .then(res => {
-        expect(res.body).toHaveLength(10);
-        res.body.slice(0, 9).forEach((user, i) => {
+        expect(res.body).toHaveLength(5);
+        res.body.slice(0, 4).forEach((user, i) => {
           expect(res.body[i].count).toBeGreaterThanOrEqual(res.body[i + 1].count);
         });
       });

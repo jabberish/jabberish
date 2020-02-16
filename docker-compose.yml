@@ -2,6 +2,7 @@ version: '2.2'
 
 services:
   backend:
+    restart: always
     container_name: jabberish
     build: ./
     command: npm start

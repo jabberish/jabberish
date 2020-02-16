@@ -8,7 +8,7 @@ describe('Not Found Route', () => {
       .then(res => {
         expect(res.body).toEqual({
           status: 404,
-          message: 'not found'
+          message: 'Not Found'
         });
       });
 	})

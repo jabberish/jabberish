@@ -4,15 +4,18 @@ services:
   backend:
     restart: always
     container_name: jabberish
-    build: ./
-    command: npm start
-    working_dir: /usr/src/app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npm run start:watch
+    working_dir: /app
     ports:
       - "3000:3000"
     env_file:
       - ./.env
     volumes:
-      - ./:/usr/src/app
+      - /app/node_modules
+      - .:/app
     links:
       - mongo
   mongo:

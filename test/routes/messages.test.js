@@ -1,8 +1,7 @@
+process.env.NODE_ENV = 'test';
 const { getToken, getUsers, getChannels, getWorkspaces } = require('../data-helpers');
 const io = require('socket.io-client');
 const { http } = require('../../lib/app');
-
-process.env.NODE_ENV = 'test';
 
 describe('auth routes', () => {
   let socket;

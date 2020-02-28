@@ -1,7 +1,6 @@
+process.env.NODE_ENV = 'test';
 const { getAgent, getUsers, getWorkspaces } = require('../data-helpers');
 const UserByWorkspace = require('../../lib/models/UserByWorkspace');
-
-process.env.NODE_ENV = 'test';
 
 describe('workspaces routes', () => {
   it('creates a workspace and returns a user to workspace relationship', () => {
@@ -71,7 +70,7 @@ describe('workspaces routes', () => {
       .delete(`/api/v1/workspaces/${workspace._id}`)
       .then(res => {
         expect(res.body.ok).toEqual(1);
-      })
+      });
     return getAgent()
       .post(`/api/v1/workspaces/add-user/${workspace._id}`)
       .send({ username: users[1].username })

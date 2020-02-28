@@ -1,8 +1,7 @@
+process.env.NODE_ENV = 'test';
 const { getUsers, getAgent } = require('../data-helpers');
 const request = require('supertest');
 const { http } = require('../../lib/app');
-
-process.env.NODE_ENV = 'test';
 
 describe('auth routes', () => {
   it('creates and returns a user', () => {
@@ -36,26 +35,26 @@ describe('auth routes', () => {
     const user = getUsers()[1];
     return request(http)
       .post('/api/v1/auth/signin')
-      .send({username: user.username, password: 'not-it'})
+      .send({ username: user.username, password: 'not-it' })
       .then(res => {
         expect(res.body).toEqual({
           status: 401,
           message: 'Invalid username/password'
-        })
-      })
-  })
+        });
+      });
+  });
 
   it('can block a user from using an incorrect username and password', () => {
     return request(http)
       .post('/api/v1/auth/signin')
-      .send({username: 'not-it', password: 'not-it'})
+      .send({ username: 'not-it', password: 'not-it' })
       .then(res => {
         expect(res.body).toEqual({
           status: 401,
           message: 'Invalid username/password'
-        })
-      })
-  })
+        });
+      });
+  });
 
   it('can verify that a user is signed in', () => {
     // create a user

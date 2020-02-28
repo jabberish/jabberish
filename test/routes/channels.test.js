@@ -1,8 +1,7 @@
+process.env.NODE_ENV = 'test';
 const { getAgent, getWorkspaces, getChannels } = require('../data-helpers');
 const request = require('supertest');
 const { http } = require('../../lib/app');
-
-process.env.NODE_ENV = 'test';
 
 describe('channels routes', () => {
   it('creates a channel in a workspace the user is a member of', () => {
@@ -41,7 +40,7 @@ describe('channels routes', () => {
         expect(res.body).toEqual({
           status: 401,
           message: 'No session cookie'
-        })
+        });
       });
   });
 
@@ -68,7 +67,7 @@ describe('channels routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           status: 403,
-          message: "You must be a member of a workspace to view its channels"
+          message: 'You must be a member of a workspace to view its channels'
         });
       });
   });

@@ -1,0 +1,41 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Test on node ${{ matrix.node }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node: [12]
+        os: [ubuntu-latest]
+
+    services:
+      mongodb:
+        image: mongo:3.4.23
+        ports:
+          - 27017:27017
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use name ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+          registry-usrl: https://registry.npmjs.org
+
+      - name: Install
+        run: npm install
+
+      - name: build
+        run: npm run build
+
+      - name: test
+        run: npm test
+        env:
+          MONGODB_URI: mongodb://localhost:27017/github
+          NODE_ENV: ci

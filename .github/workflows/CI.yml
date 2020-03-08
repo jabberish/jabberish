@@ -36,3 +36,4 @@ jobs:
         env:
           MONGODB_URI: mongodb://localhost:27017/github
           NODE_ENV: ci
+          APP_SECRET: githubActionsSecret

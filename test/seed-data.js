@@ -5,7 +5,7 @@ const Message = require('../lib/models/Message');
 const UserByWorkspace = require('../lib/models/UserByWorkspace');
 const chance = require('chance').Chance();
 
-module.exports = async ({ users = 5, maxWorkspaces = 3, maxChannels = 3, maxMessages = 20 } = {}) => {
+module.exports = async ({ users = 5, maxWorkspaces = 3, maxChannels = 3, maxMessages = 10 } = {}) => {
   const createdUsers = await User.create(
     [...Array(users)].map(() => ({
       username: chance.name(),
